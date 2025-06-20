@@ -7,7 +7,7 @@ WORKDIR /opt
 # install grepurl script to retrieve the most current download URL of CoreNLP.
 # install latest CoreNLP release.
 RUN pip install grepurl --break-system-packages && \
-    wget `grepurl -r 'stanford-corenlp-.*\.zip' -a http://stanfordnlp.github.io/CoreNLP` && \
+    wget --no-check-certificate `grepurl -r 'stanford-corenlp-.*\.zip' -a http://stanfordnlp.github.io/CoreNLP` && \
     unzip stanford-corenlp-*.zip && \
     mv $(ls -d stanford-corenlp-*/) corenlp && rm *.zip
 
@@ -18,7 +18,7 @@ RUN pip install grepurl --break-system-packages && \
 # This command get's the first model file (at least for English there are two)
 # and extracts its property file.
 WORKDIR /opt/corenlp
-RUN wget $(grepurl -r 'english.*jar$' -a http://stanfordnlp.github.io/CoreNLP | head -n 1)
+RUN wget --no-check-certificate $(grepurl -r 'english.*jar$' -a http://stanfordnlp.github.io/CoreNLP | head -n 1)
 
 # only keep the things we need to run and test CoreNLP
 FROM alpine:3.21
